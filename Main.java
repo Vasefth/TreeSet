@@ -4,9 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		AccountNameComparator myComparator = new AccountNameComparator();
-		
-		Collection<BankAccount> set = new TreeSet<BankAccount>(myComparator);
+		Collection<BankAccount> set = new TreeSet<BankAccount>();
 		
 		BankAccount BA1 = new BankAccount("001", 1500, "Papadopoulos");
 		BankAccount BA2 = new BankAccount("002", 2500, "Nikolaou");
@@ -21,14 +19,27 @@ public class Main {
 		   System.out.println(account.getId() + ", " + 
 				              account.getBalance() + ", " +
 				              account.getHolderName());
-		}	
+		}
+			
+		
 	}
 }
 
-class BankAccount {
+class BankAccount implements Comparable {
 	private String id;
 	private double balance;
-	private String holderName;	
+	private String holderName;
+	
+	public int compareTo(Object other) {
+		BankAccount otherAccount = (BankAccount)other;
+		if(this.balance < otherAccount.balance)
+			return -1;
+		else if(this.balance > otherAccount.balance)
+			return 1;
+		else
+			return 0;
+	}
+	
 	
 	public BankAccount(String id, double balance, String holderName) {
 		this.id = id;
@@ -49,25 +60,3 @@ class BankAccount {
 	}
 
 }
-
-class AccountCodeComparator implements Comparator<BankAccount> {
-	
-	public int compare(BankAccount account1, BankAccount account2) {
-		String code1 = account1.getId();
-		String code2 = account2.getId();
-		
-		return code1.compareTo(code2);
-	}
-}
-
-class AccountNameComparator implements Comparator<BankAccount> {
-	
-	public int compare(BankAccount account1, BankAccount account2) {
-		String name1 = account1.getHolderName();
-		String name2 = account2.getHolderName();
-		
-		return name1.compareTo(name2);
-	}
-}
-
-
